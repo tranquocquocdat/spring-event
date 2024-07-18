@@ -17,5 +17,30 @@ services:
     volumes:
       - mongo-data:/data/db
 
+  jenkins:
+    image: jenkins/jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins-data:/var/jenkins_home
+
+  registry:
+    image: registry:2   # Sử dụng Docker Registry phiên bản 2
+    ports:
+      - "5000:5000"     # Port mặc định của Docker Registry
+    volumes:
+      - registry-data:/var/lib/registry   # Thư mục lưu trữ dữ liệu của Docker Registry
+  registry-ui:
+    image: joxit/docker-registry-ui:static
+    ports:
+      - "8081:80"     # Port cho giao diện người dùng của Docker Registry
+    environment:
+      - REGISTRY_TITLE=Docker Registry UI
+      - REGISTRY_URL=http://registry:5000   # URL của Docker Registry
+    depends_on:
+      - registry
 volumes:
   mongo-data:
+  jenkins-data:
+  registry-data:
