@@ -3,19 +3,17 @@ version: '3.8'
 services:
   app:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../   # Đường dẫn tới thư mục gốc của dự án
+      dockerfile: Dockerfile  # Đường dẫn tới Dockerfile
     ports:
-      - "8080:8080"
-    depends_on:
-      - mongo
+      - "8088:8088"
     environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/mydatabase
+      - SPRING_PROFILES_ACTIVE=production
 
   mongo:
     image: mongo:latest
     ports:
-      - "27017:27017"
+      - "27018:27018"
     volumes:
       - mongo-data:/data/db
 
